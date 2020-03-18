@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todos Web</title>
+  </head>
+  <body>
+    <header id="header" class="header">
+      <h1 id="title" class="title">Todos Web</h1>
+    </header>
+
+    <main id="container" class="container">
+      <form id="new-todo-form" class="new-todo-form">
+        <label for="new-todo" class="new-todo-label">
+          What do you want to do?
+        </label>
+        <input
+          placeholder="Doing something"
+          type="text"
+          name="new-todo"
+          id="new-todo"
+          class="new-todo-input"
+        />
+        <input
+          value="Add Todo"
+          type="submit"
+          id="new-todo-submit"
+          class="new-todo-submit"
+        />
+      </form>
+
+      <ul id="todos-list" class="todos-list">
+        <li data-id="1">Doing something</li>
+        <li data-id="2">Doing something</li>
+        <li data-id="3">Doing something</li>
+      </ul>
+    </main>
+
+    <footer id="footer" class="footer">
+      <p class="copyright">Copyright 2020</p>
+    </footer>
+  </body>
+</html>
