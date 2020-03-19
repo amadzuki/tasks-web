@@ -1,2 +1,3 @@
-# todos-web
-Todos Web
+# Task Web
+
+simple productivity note app  for storing tasks
