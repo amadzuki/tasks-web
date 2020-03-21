@@ -1,29 +1,37 @@
 class task {
-  constructor(id, text, favorite, date, ...tags) {
+  constructor(id, text, favorite, date, tags) {
     this.id = id
     this.text = text
     this.favorite = favorite
     this.date = date
-    this.tags = [...tags]
+    this.tags = tags
   }
 }
 
-let tasks = []
+const tasks = []
 
 const getNewTask = () => {
-  const newTaskID = () => {
+  const newID = () => {
     if (tasks.length === 0) {
-      return (id = 0)
+      firstID = 1
+      return firstID
     }
-    const newID = tasks
-      .map(id => this.id)
+    const lastIDNumber = tasks
+      .map(task => task.id)
       .reduce((max, value) => Math.max(max, value))
-    return newID
+
+    const newIDNumber = lastIDNumber + 1
+    return newIDNumber
   }
+
+  const newTaskID = newID()
   const newTaskText = document.getElementById("new-task-text").value
-  const newTaskFavorite = document.getElementById("new-task-favorite").value
+  const newTaskFavorite = document.getElementById("new-task-favorite").checked
   const newTaskDate = document.getElementById("new-task-date").value
-  const newTaskTags = document.getElementById("new-task-tags").value
+  const newTaskTags = document
+    .getElementById("new-task-tags")
+    .value.split(",")
+    .map(tag => tag.trim())
   const newTask = new task(
     newTaskID,
     newTaskText,
@@ -36,6 +44,8 @@ const getNewTask = () => {
 
 const setNewTaskText = text => {
   document.getElementById("new-task-text").value = text
+  document.getElementById("new-task-tags").value = text
+  document.getElementById("new-task-date").value = text
 }
 
 const insertToTaskList = newTask => {
