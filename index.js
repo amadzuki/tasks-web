@@ -1,3 +1,15 @@
+class task {
+  constructor(id, text, favorite, date, ...tags) {
+    this.id = id
+    this.text = text
+    this.favorite = favorite
+    this.date = date
+    this.tags = [...tags]
+  }
+}
+
+const tasks = []
+
 const getNewTaskText = () => {
   return document.getElementById("new-task-text").value
 }
@@ -25,3 +37,5 @@ const submitNewTask = event => {
 const newTaskForm = document.getElementById("new-task-form")
 
 newTaskForm.addEventListener("submit", submitNewTask)
+
+document.getElementById("date-picker").valueAsDate = new Date()

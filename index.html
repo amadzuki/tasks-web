@@ -12,13 +12,34 @@
 
     <main>
       <form id="new-task-form">
-        <label for="task">Add task</label>
-        <input
-          name="task"
-          type="text"
-          id="new-task-text"
-          placeholder="Your task here"
-        />
+        <div>
+          <label for="task-text">Work to be done</label>
+          <input
+            name="task-text"
+            type="text"
+            id="new-task-text"
+            placeholder="Your task here"
+          />
+        </div>
+        <div>
+          <label>Favorite:</label>
+          <input name="task-favorite" type="checkbox" />
+          <label for="task-favorite">
+            No
+          </label>
+        </div>
+        <div>
+          <label for="task-date">Due Date:</label>
+          <input id="date-picker" type="date" />
+        </div>
+        <div>
+          <label for="task-tags">Tags:</label>
+          <input
+            name="task-tags"
+            type="text"
+            placeholder="e.g.: work, family, etc."
+          />
+        </div>
         <input
           id="new-task-submit"
           class="new-task-submit"
@@ -26,11 +47,12 @@
           value="add task"
         />
       </form>
-      <ul id="task-list">
-        <li data-id="1">Task in the morning</li>
-        <li data-id="2">Task in the afternoon</li>
-        <li data-id="3">Task at night</li>
-      </ul>
+      <section>
+        <p>Your task list:</p>
+        <ul id="task-list">
+          <!-- <li data-id="1" >Task text goes here</li> -->
+        </ul>
+      </section>
     </main>
 
     <footer id="footer" class="footer">
