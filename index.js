@@ -1,3 +1,16 @@
+const insertToTaskList = newTask => {
+  const taskList = document.getElementById("task-list")
+
+  taskList.innerHTML += `<li>${newTask}</li>`
+}
+
+let tasks = []
+if (sessionStorage.getItem("myTasks") !== null) {
+  tasks = JSON.parse(sessionStorage.getItem("myTasks"))
+  const oldList = tasks.map(task => task.text)
+  oldList.forEach(item => insertToTaskList(item))
+}
+
 class task {
   constructor(id, text, favorite, date, tags) {
     this.id = id
@@ -7,8 +20,6 @@ class task {
     this.tags = tags
   }
 }
-
-const tasks = []
 
 const getNewTask = () => {
   const newID = () => {
@@ -48,12 +59,6 @@ const setNewTaskText = text => {
   document.getElementById("new-task-date").value = text
 }
 
-const insertToTaskList = newTask => {
-  const taskList = document.getElementById("task-list")
-
-  taskList.innerHTML += `<li>${newTask}</li>`
-}
-
 // by default there is page refresh
 const submitNewTask = event => {
   event.preventDefault()
@@ -63,6 +68,7 @@ const submitNewTask = event => {
     insertToTaskList(newTaskText)
     tasks.push(newTask)
     setNewTaskText("")
+    sessionStorage.setItem("myTasks", JSON.stringify(tasks))
   }
 }
 
