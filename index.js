@@ -1,7 +1,7 @@
 const insertToTaskList = newTask => {
   const taskList = document.getElementById("task-list")
 
-  taskList.innerHTML += `<li>${newTask}</li>`
+  taskList.innerHTML += `<li contenteditable="true">${newTask}</li>`
 }
 
 let tasks = []
