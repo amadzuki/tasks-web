@@ -1,6 +1,9 @@
 const insertToTaskList = newTask => {
   const taskList = document.getElementById("task-list")
-  taskList.innerHTML += `<li data-id="${newTask.id}" contenteditable="true">${newTask.text}</li>`
+  const button = '<button contenteditable="false">x</button>'
+  taskList.innerHTML += `<li data-id="${
+    newTask.id
+  }" contenteditable="true">${newTask.text + button}</li>`
 }
 
 let tasks = []
@@ -92,6 +95,19 @@ for (index = 0; index < taskList.length; index++) {
 
 // document.getElementById("new-task-date").valueAsDate = new Date()
 
+//function single task remover
+const taskRemoveButtons = document
+  .getElementById("task-list")
+  .getElementsByTagName("button")
+for (index = 0; index < taskRemoveButtons.length; index++) {
+  taskRemoveButtons[index].addEventListener("click", function() {
+    const deletedTaskID = this.parentNode.dataset.id
+    const deletedTaskIndex = tasks.findIndex(task => task.id == deletedTaskID)
+    tasks.splice(deletedTaskIndex, 1)
+    this.parentNode.remove()
+  })
+}
+
 //configure "remove all" button
 const buttonRemoveAll = document.getElementById("button-remove-all")
 buttonRemoveAll.onclick = () => {
@@ -123,3 +139,9 @@ const filterByTags = (...tags) => {
   const uniqueFiltered = new Set(newFiltered)
   return Array.from(uniqueFiltered)
 }
+
+//filter by ...
+
+// bugs to be fixed later:
+// - text "x" inside single task remover button will be included when user edit the task text
+//  solution: remove the letter "x" and just use css
