@@ -1,6 +1,5 @@
 const insertToTaskList = newTask => {
   const taskList = document.getElementById("task-list")
-
   taskList.innerHTML += `<li data-id="${newTask.id}" contenteditable="true">${newTask.text}</li>`
 }
 
@@ -92,3 +91,16 @@ for (index = 0; index < taskList.length; index++) {
 }
 
 // document.getElementById("new-task-date").valueAsDate = new Date()
+
+//configure "remove all" button
+const buttonRemoveAll = document.getElementById("button-remove-all")
+buttonRemoveAll.onclick = () => {
+  const isRemoveAll = confirm(
+    "Are you sure to remove all task? You cannot undo this"
+  )
+  if (isRemoveAll) {
+    tasks = []
+    sessionStorage.clear()
+    document.getElementById("task-list").innerHTML = ""
+  }
+}
