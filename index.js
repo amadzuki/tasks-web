@@ -1,14 +1,13 @@
 const insertToTaskList = newTask => {
   const taskList = document.getElementById("task-list")
 
-  taskList.innerHTML += `<li contenteditable="true">${newTask}</li>`
+  taskList.innerHTML += `<li data-id="${newTask.id}" contenteditable="true">${newTask.text}</li>`
 }
 
 let tasks = []
 if (sessionStorage.getItem("myTasks") !== null) {
   tasks = JSON.parse(sessionStorage.getItem("myTasks"))
-  const oldList = tasks.map(task => task.text)
-  oldList.forEach(item => insertToTaskList(item))
+  tasks.forEach(item => insertToTaskList(item))
 }
 
 class task {
@@ -65,7 +64,7 @@ const submitNewTask = event => {
   const newTask = getNewTask()
   const newTaskText = newTask.text
   if (newTaskText !== "") {
-    insertToTaskList(newTaskText)
+    insertToTaskList(newTask)
     tasks.push(newTask)
     setNewTaskText("")
     sessionStorage.setItem("myTasks", JSON.stringify(tasks))
@@ -75,5 +74,8 @@ const submitNewTask = event => {
 const newTaskForm = document.getElementById("new-task-form")
 
 newTaskForm.addEventListener("submit", submitNewTask)
+
+//event listener for contenteditable change
+const taskList = document.getElementById("task-list").getElementsByTagName("li")
 
 // document.getElementById("new-task-date").valueAsDate = new Date()
