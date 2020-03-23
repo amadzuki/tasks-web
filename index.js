@@ -67,7 +67,7 @@ const submitNewTask = event => {
     insertToTaskList(newTask)
     tasks.push(newTask)
     setNewTaskText("")
-    sessionStorage.setItem("myTasks", JSON.stringify(tasks))
+    updateTasks()
   }
 }
 
@@ -75,7 +75,20 @@ const newTaskForm = document.getElementById("new-task-form")
 
 newTaskForm.addEventListener("submit", submitNewTask)
 
+//function to edit array "tasks"
+updateTasks = () => {
+  sessionStorage.setItem("myTasks", JSON.stringify(tasks))
+}
+
 //event listener for contenteditable change
 const taskList = document.getElementById("task-list").getElementsByTagName("li")
+for (index = 0; index < taskList.length; index++) {
+  taskList[index].addEventListener("input", function() {
+    const changedTask = this.innerText
+    const idTask = this.dataset.id
+    tasks.find(task => task.id == idTask).text = changedTask
+    updateTasks()
+  })
+}
 
 // document.getElementById("new-task-date").valueAsDate = new Date()
