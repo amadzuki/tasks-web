@@ -105,6 +105,7 @@ for (index = 0; index < taskRemoveButtons.length; index++) {
     const deletedTaskIndex = tasks.findIndex(task => task.id == deletedTaskID)
     tasks.splice(deletedTaskIndex, 1)
     this.parentNode.remove()
+    updateTasks()
   })
 }
 
