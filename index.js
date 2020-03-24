@@ -47,13 +47,13 @@ const displayTasksToTaskList = newTask => {
 
 // -----------------------------------------------------------------------------
 
-class Task {
-  constructor(id, text, favorite, date, tags) {
-    this.id = id
-    this.text = text
-    this.favorite = favorite
-    this.date = date
-    this.tags = tags
+const createTaskItem = (id, text, favorite, date, tags) => {
+  return {
+    id,
+    text,
+    favorite,
+    date,
+    tags
   }
 }
 
@@ -82,7 +82,7 @@ const getNewTask = () => {
     .value.split(",")
     .map(tag => tag.trim())
 
-  const newTask = new Task(
+  const newTask = createTaskItem(
     newTaskID,
     newTaskText,
     newTaskFavorite,
