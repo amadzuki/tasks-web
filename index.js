@@ -1,9 +1,29 @@
-const insertToTaskList = newTask => {
+// -----------------------------------------------------------------------------
+// Data Storage
+
+let tasks = []
+
+// -----------------------------------------------------------------------------
+// Elements
+
+const newTaskForm = document.getElementById("new-task-form")
+const taskList = document.getElementById("task-list").getElementsByTagName("li")
+const taskRemoveButtons = document
+  .getElementById("task-list")
+  .getElementsByTagName("button")
+const buttonRemoveAll = document.getElementById("button-remove-all")
+
+// -----------------------------------------------------------------------------
+// Functions
+
+const displayTasksToTaskList = newTask => {
   const taskList = document.getElementById("task-list")
 
   const taskTextElement = `<span>${newTask.text}</span>`
   const closeButtonElement = "<button>x</button>"
-  const favoriteToggleElement = `<input type="checkbox" checked="${newTask.favorite}"/>`
+  const favoriteToggleElement = `<input type="checkbox" ${
+    newTask.favorite ? "Checked" : ""
+  }/>`
   const dueDateElement = `<time datetime="${newTask.date}">${newTask.date}</time>`
 
   taskList.innerHTML += `
@@ -13,15 +33,21 @@ const insertToTaskList = newTask => {
     ${favoriteToggleElement}
     ${closeButtonElement}
   </li>`
+
+  for (index = 0; index < taskRemoveButtons.length; index++) {
+    taskRemoveButtons[index].addEventListener("click", function() {
+      const deletedTaskID = this.parentNode.dataset.id
+      const deletedTaskIndex = tasks.findIndex(task => task.id == deletedTaskID)
+      tasks.splice(deletedTaskIndex, 1)
+      this.parentNode.remove()
+      updateTasks()
+    })
+  }
 }
 
-let tasks = []
-if (sessionStorage.getItem("myTasks") !== null) {
-  tasks = JSON.parse(sessionStorage.getItem("myTasks"))
-  tasks.forEach(item => insertToTaskList(item))
-}
+// -----------------------------------------------------------------------------
 
-class task {
+class Task {
   constructor(id, text, favorite, date, tags) {
     this.id = id
     this.text = text
@@ -30,6 +56,8 @@ class task {
     this.tags = tags
   }
 }
+
+// -----------------------------------------------------------------------------
 
 const getNewTask = () => {
   const newID = () => {
@@ -53,13 +81,15 @@ const getNewTask = () => {
     .getElementById("new-task-tags")
     .value.split(",")
     .map(tag => tag.trim())
-  const newTask = new task(
+
+  const newTask = new Task(
     newTaskID,
     newTaskText,
     newTaskFavorite,
     newTaskDate,
     newTaskTags
   )
+
   return newTask
 }
 
@@ -74,64 +104,32 @@ const submitNewTask = event => {
   event.preventDefault()
   const newTask = getNewTask()
   const newTaskText = newTask.text
+
   if (newTaskText !== "") {
-    insertToTaskList(newTask)
+    displayTasksToTaskList(newTask)
     tasks.push(newTask)
     setNewTaskText("")
     updateTasks()
   }
 }
 
-const newTaskForm = document.getElementById("new-task-form")
-
-newTaskForm.addEventListener("submit", submitNewTask)
-
-//function to run after editing array "tasks"
-updateTasks = () => {
-  sessionStorage.setItem("myTasks", JSON.stringify(tasks))
+// function to run after editing array "tasks"
+const updateTasks = () => {
+  localStorage.setItem("myTasks", JSON.stringify(tasks))
 }
 
-//event listener for contenteditable change
-const taskList = document.getElementById("task-list").getElementsByTagName("li")
-for (index = 0; index < taskList.length; index++) {
-  taskList[index].addEventListener("input", function() {
-    const changedTask = this.innerText
-    const idTask = this.dataset.id
-    tasks.find(task => task.id == idTask).text = changedTask
-    updateTasks()
-  })
-}
-
-// document.getElementById("new-task-date").valueAsDate = new Date()
-
-//function single task remover
-const taskRemoveButtons = document
-  .getElementById("task-list")
-  .getElementsByTagName("button")
-for (index = 0; index < taskRemoveButtons.length; index++) {
-  taskRemoveButtons[index].addEventListener("click", function() {
-    const deletedTaskID = this.parentNode.dataset.id
-    const deletedTaskIndex = tasks.findIndex(task => task.id == deletedTaskID)
-    tasks.splice(deletedTaskIndex, 1)
-    this.parentNode.remove()
-    updateTasks()
-  })
-}
-
-//configure "remove all" button
-const buttonRemoveAll = document.getElementById("button-remove-all")
 buttonRemoveAll.onclick = () => {
   const isRemoveAll = confirm(
     "Are you sure to remove all task? You cannot undo this"
   )
   if (isRemoveAll) {
     tasks = []
-    sessionStorage.clear()
+    localStorage.clear()
     document.getElementById("task-list").innerHTML = ""
   }
 }
 
-//filter by tags
+// filter by tags
 const filterByTags = (...tags) => {
   const newFiltered = []
   const meshTags = [...tags]
@@ -146,12 +144,20 @@ const filterByTags = (...tags) => {
       }
     }
   }
+
   const uniqueFiltered = new Set(newFiltered)
   return Array.from(uniqueFiltered)
 }
 
-//filter by ...
+// -----------------------------------------------------------------------------
+// Event Listeners
 
-// bugs to be fixed later:
-// - text "x" inside single task remover button will be included when user edit the task text
-//  solution: remove the letter "x" and just use css
+newTaskForm.addEventListener("submit", submitNewTask)
+
+// -----------------------------------------------------------------------------
+// Initialization
+
+if (localStorage.getItem("myTasks") !== null) {
+  tasks = JSON.parse(localStorage.getItem("myTasks"))
+  tasks.forEach(item => displayTasksToTaskList(item))
+}
