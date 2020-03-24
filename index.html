@@ -21,41 +21,46 @@
             placeholder="Your task here"
           />
         </div>
+
         <div>
-          <label>Favorite:</label>
-          <input id="new-task-favorite" name="task-favorite" type="checkbox" />
           <label for="task-favorite">
-            No
+            Favorite:
           </label>
+          <input id="new-task-favorite" name="task-favorite" type="checkbox" />
         </div>
+
         <div>
           <label for="task-date">Due Date:</label>
           <input id="new-task-date" type="date" />
         </div>
+
         <div>
           <label for="task-tags">Tags:</label>
           <input
             id="new-task-tags"
             name="task-tags"
             type="text"
-            placeholder="e.g.: work, family, etc."
+            placeholder="e.g. work, family, etc."
           />
         </div>
+
         <input
           id="new-task-submit"
           class="new-task-submit"
           type="submit"
-          value="add task"
+          value="Add Task"
         />
       </form>
+
       <section>
         <p>Your task list:</p>
         <ul id="task-list">
           <!-- <li data-id="1" >Task text goes here</li> -->
         </ul>
       </section>
+
       <div>
-        <button id="button-remove-all" type="button">remove all</button>
+        <button id="button-remove-all" type="button">Remove all tasks</button>
       </div>
     </main>
 

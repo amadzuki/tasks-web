@@ -1,9 +1,18 @@
 const insertToTaskList = newTask => {
   const taskList = document.getElementById("task-list")
-  const button = '<button contenteditable="false">x</button>'
-  taskList.innerHTML += `<li data-id="${
-    newTask.id
-  }" contenteditable="true">${newTask.text + button}</li>`
+
+  const taskTextElement = `<span>${newTask.text}</span>`
+  const closeButtonElement = "<button>x</button>"
+  const favoriteToggleElement = `<input type="checkbox" checked="${newTask.favorite}"/>`
+  const dueDateElement = `<time datetime="${newTask.date}">${newTask.date}</time>`
+
+  taskList.innerHTML += `
+  <li data-id="${newTask.id}">
+    ${taskTextElement}
+    ${dueDateElement}
+    ${favoriteToggleElement}
+    ${closeButtonElement}
+  </li>`
 }
 
 let tasks = []
@@ -77,7 +86,7 @@ const newTaskForm = document.getElementById("new-task-form")
 
 newTaskForm.addEventListener("submit", submitNewTask)
 
-//function to edit array "tasks"
+//function to run after editing array "tasks"
 updateTasks = () => {
   sessionStorage.setItem("myTasks", JSON.stringify(tasks))
 }
